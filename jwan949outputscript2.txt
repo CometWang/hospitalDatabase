@@ -1,0 +1,344 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT * FROM patient
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+LOAD DATA LOCAL INFILE 'loaddata.txt' INTO TABLE patient
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+--------------
+
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Deleted: 0  Skipped: 0  Warnings: 0
+
+--------------
+SELECT * FROM patient
+--------------
+
++-----------+-----------+----------+
+| ohip      | firstName | lastName |
++-----------+-----------+----------+
+| 110112113 | Bill      | Gellar   |
+| 111222111 | Suzi      | Bing     |
+| 111222333 | Jon       | Green    |
+| 333444555 | Colleen   | Gellar   |
+| 444555666 | Sean      | Gellar   |
+| 667766777 | Scotty    | Bing     |
++-----------+-----------+----------+
+6 rows in set (0.00 sec)
+
+--------------
+INSERT INTO patient (ohip, firstName, lastName) VALUES (123,"Jia","Wang")
+--------------
+
+Query OK, 1 row affected (0.03 sec)
+
+--------------
+SELECT * FROM patient
+--------------
+
++-----------+-----------+----------+
+| ohip      | firstName | lastName |
++-----------+-----------+----------+
+|       123 | Jia       | Wang     |
+| 110112113 | Bill      | Gellar   |
+| 111222111 | Suzi      | Bing     |
+| 111222333 | Jon       | Green    |
+| 333444555 | Colleen   | Gellar   |
+| 444555666 | Sean      | Gellar   |
+| 667766777 | Scotty    | Bing     |
++-----------+-----------+----------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+INSERT INTO doctor ( licensedNum, firstName, lastName, licensedDate, specialty) VALUES 
+ ( "RD34","Bernie", "Kavorikian","1980-09-09" , "Urologist"),
+ ( "GD56","Joey", "Shabado", "1960-06-24", "Podiatrist"),
+ ( "HT45","Ross", "Clooney", "1987-06-20", "Surgeon" ),
+ ( "YT67","Ben", "Spock", "1955-02-20", "Pediatrician"),
+ ( "JK78","Mandy", "Webster",  "1990-08-08", "Surgeon"),
+ ( "SE66", "Colleen", "Aziz",  "1989-08-24", "Surgeon"),
+ ( "FG22",  "Shaun","Murphy", "2017-08-08", "Surgeon")
+--------------
+
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM doctor
+--------------
+
++------+-------------+-----------+------------+--------------+--------------+
+| code | licensedNum | firstName | lastName   | licensedDate | specialty    |
++------+-------------+-----------+------------+--------------+--------------+
+| NULL | FG22        | Shaun     | Murphy     | 2017-08-08   | Surgeon      |
+| NULL | GD56        | Joey      | Shabado    | 1960-06-24   | Podiatrist   |
+| NULL | HT45        | Ross      | Clooney    | 1987-06-20   | Surgeon      |
+| NULL | JK78        | Mandy     | Webster    | 1990-08-08   | Surgeon      |
+| NULL | RD34        | Bernie    | Kavorikian | 1980-09-09   | Urologist    |
+| NULL | SE66        | Colleen   | Aziz       | 1989-08-24   | Surgeon      |
+| NULL | YT67        | Ben       | Spock      | 1955-02-20   | Pediatrician |
++------+-------------+-----------+------------+--------------+--------------+
+7 rows in set (0.01 sec)
+
+--------------
+SELECT * FROM hospital
+--------------
+
+Empty set (0.01 sec)
+
+--------------
+INSERT INTO hospital (hospitalName, city, province, bedAmount,code, head, headstartedDate) VALUES 
+ ("St. Joseph", "London", "On", 1000, "BBC", "GD56","1999-09-10"),
+ ("Victoria", "London", "On", 1600, "ABC", "SE66","1997-12-07"),
+ ("Victoria", "Victoria", "BC", 1200,"DDE", "YT67","1994-12-05")
+--------------
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM hospital
+--------------
+
++--------------+----------+----------+-----------+------+------+-----------------+
+| hospitalName | city     | province | bedAmount | code | head | headstartedDate |
++--------------+----------+----------+-----------+------+------+-----------------+
+| Victoria     | London   | On       |      1600 | ABC  | SE66 | 1997-12-07      |
+| St. Joseph   | London   | On       |      1000 | BBC  | GD56 | 1999-09-10      |
+| Victoria     | Victoria | BC       |      1200 | DDE  | YT67 | 1994-12-05      |
++--------------+----------+----------+-----------+------+------+-----------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treatment
+--------------
+
+Empty set (0.01 sec)
+
+--------------
+INSERT INTO treatment (ohip, doctorlicensedNum) VALUES 
+(110112113, "GD56"),
+(444555666, "HT45"),
+(444555666, "JK78"),
+(111222333, "SE66"),
+(111222333, "YT67"),
+(111222333, "JK78"),
+(333444555, "GD56"),
+(667766777, "YT67"),
+(667766777, "JK78"),
+(667766777, "GD56"),
+(111222111, "YT67"),
+(123,"FG22")
+--------------
+
+Query OK, 12 rows affected (0.01 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM treatment
+--------------
+
++-----------+-------------------+
+| ohip      | doctorlicensedNum |
++-----------+-------------------+
+|       123 | FG22              |
+| 110112113 | GD56              |
+| 333444555 | GD56              |
+| 667766777 | GD56              |
+| 444555666 | HT45              |
+| 111222333 | JK78              |
+| 444555666 | JK78              |
+| 667766777 | JK78              |
+| 111222333 | SE66              |
+| 111222111 | YT67              |
+| 111222333 | YT67              |
+| 667766777 | YT67              |
++-----------+-------------------+
+12 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++------+-------------+-----------+------------+--------------+--------------+
+| code | licensedNum | firstName | lastName   | licensedDate | specialty    |
++------+-------------+-----------+------------+--------------+--------------+
+| NULL | FG22        | Shaun     | Murphy     | 2017-08-08   | Surgeon      |
+| NULL | GD56        | Joey      | Shabado    | 1960-06-24   | Podiatrist   |
+| NULL | HT45        | Ross      | Clooney    | 1987-06-20   | Surgeon      |
+| NULL | JK78        | Mandy     | Webster    | 1990-08-08   | Surgeon      |
+| NULL | RD34        | Bernie    | Kavorikian | 1980-09-09   | Urologist    |
+| NULL | SE66        | Colleen   | Aziz       | 1989-08-24   | Surgeon      |
+| NULL | YT67        | Ben       | Spock      | 1955-02-20   | Pediatrician |
++------+-------------+-----------+------------+--------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+UPDATE doctor SET code ="BBC" where licensedNum = "RD34"
+--------------
+
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctor SET code ="BBC" where licensedNum = "GD56"
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctor SET code ="DDE" where licensedNum = "HT45"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctor SET code ="DDE" where licensedNum = "YT67"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctor SET code ="BBC" where licensedNum = "JK78"
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctor SET code ="ABC" where licensedNum = "SE66"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctor SET code ="ABC" where licensedNum = "FG22"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT * FROM doctor
+--------------
+
++------+-------------+-----------+------------+--------------+--------------+
+| code | licensedNum | firstName | lastName   | licensedDate | specialty    |
++------+-------------+-----------+------------+--------------+--------------+
+| ABC  | FG22        | Shaun     | Murphy     | 2017-08-08   | Surgeon      |
+| BBC  | GD56        | Joey      | Shabado    | 1960-06-24   | Podiatrist   |
+| DDE  | HT45        | Ross      | Clooney    | 1987-06-20   | Surgeon      |
+| BBC  | JK78        | Mandy     | Webster    | 1990-08-08   | Surgeon      |
+| BBC  | RD34        | Bernie    | Kavorikian | 1980-09-09   | Urologist    |
+| ABC  | SE66        | Colleen   | Aziz       | 1989-08-24   | Surgeon      |
+| DDE  | YT67        | Ben       | Spock      | 1955-02-20   | Pediatrician |
++------+-------------+-----------+------------+--------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM patient
+--------------
+
++-----------+-----------+----------+
+| ohip      | firstName | lastName |
++-----------+-----------+----------+
+|       123 | Jia       | Wang     |
+| 110112113 | Bill      | Gellar   |
+| 111222111 | Suzi      | Bing     |
+| 111222333 | Jon       | Green    |
+| 333444555 | Colleen   | Gellar   |
+| 444555666 | Sean      | Gellar   |
+| 667766777 | Scotty    | Bing     |
++-----------+-----------+----------+
+7 rows in set (0.00 sec)
+
+--------------
+UPDATE patient SET lastName = "Brown" WHERE ohip = 111222111
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT * FROM patient
+--------------
+
++-----------+-----------+----------+
+| ohip      | firstName | lastName |
++-----------+-----------+----------+
+|       123 | Jia       | Wang     |
+| 110112113 | Bill      | Gellar   |
+| 111222111 | Suzi      | Brown    |
+| 111222333 | Jon       | Green    |
+| 333444555 | Colleen   | Gellar   |
+| 444555666 | Sean      | Gellar   |
+| 667766777 | Scotty    | Bing     |
++-----------+-----------+----------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT  * FROM treatment
+--------------
+
++-----------+-------------------+
+| ohip      | doctorlicensedNum |
++-----------+-------------------+
+|       123 | FG22              |
+| 110112113 | GD56              |
+| 333444555 | GD56              |
+| 667766777 | GD56              |
+| 444555666 | HT45              |
+| 111222333 | JK78              |
+| 444555666 | JK78              |
+| 667766777 | JK78              |
+| 111222333 | SE66              |
+| 111222111 | YT67              |
+| 111222333 | YT67              |
+| 667766777 | YT67              |
++-----------+-------------------+
+12 rows in set (0.00 sec)
+
+--------------
+UPDATE treatment set doctorlicensedNum=(SELECT licensedNum FROM doctor WHERE lastName="Clooney") WHERE doctorlicensedNum=(SELECT licensedNum FROM doctor WHERE lastName="Spock")
+--------------
+
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+--------------
+SELECT * FROM treatment
+--------------
+
++-----------+-------------------+
+| ohip      | doctorlicensedNum |
++-----------+-------------------+
+|       123 | FG22              |
+| 110112113 | GD56              |
+| 333444555 | GD56              |
+| 667766777 | GD56              |
+| 111222111 | HT45              |
+| 111222333 | HT45              |
+| 444555666 | HT45              |
+| 667766777 | HT45              |
+| 111222333 | JK78              |
+| 444555666 | JK78              |
+| 667766777 | JK78              |
+| 111222333 | SE66              |
++-----------+-------------------+
+12 rows in set (0.00 sec)
+
+Bye

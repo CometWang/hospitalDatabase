@@ -1,0 +1,66 @@
+
+-- list db, delete and create and use the db
+SHOW databases;
+DROP DATABASE IF EXISTS jwan949assign2db;
+CREATE DATABASE jwan949assign2db;
+USE jwan949assign2db;
+
+-- grant the permission for TA
+GRANT USAGE ON *.* TO 'ta'@'localhost';
+DROP USER 'ta'@'localhost';
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319';
+GRANT ALL PRIVILEGES ON jwan949assign2db.* TO 'ta'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW TABLES;
+-- SET foreign_key_checks=0;
+
+-- create tables
+CREATE TABLE hospital (
+    hospitalName VARCHAR(20),
+    city VARCHAR(20),
+    province VARCHAR(2),
+    bedAmount INT NOT NULL,
+    code VARCHAR(3) NOT NULL,
+    head VARCHAR(4) NOT NULL,
+    headstartedDate DATE,
+    PRIMARY KEY (code)
+);
+
+CREATE TABLE doctor (
+    code VARCHAR(3),
+    licensedNum VARCHAR(4) NOT NULL,
+    firstName VARCHAR(20),
+    lastName VARCHAR(20),
+    licensedDate DATE,
+    specialty VARCHAR(30),
+    PRIMARY KEY (licensedNum),
+    FOREIGN KEY (code) REFERENCES hospital(code)
+);
+
+-- add the foreign key to hospital 
+ALTER TABLE hospital
+ADD FOREIGN KEY (head) REFERENCES doctor(licensedNum);
+
+-- continue create tables
+CREATE TABLE patient (
+    ohip INT NOT NULL,
+    firstName VARCHAR(20),
+    lastName VARCHAR(20),
+    PRIMARY KEY (ohip)
+
+);
+
+CREATE TABLE treatment(
+    ohip INT NOT NULL,
+    doctorlicensedNum VARCHAR(4) NOT NULL,
+    PRIMARY KEY (ohip,doctorlicensedNum),
+    FOREIGN KEY (ohip) REFERENCES patient(ohip),
+-- set foreign key as on delete cascade
+    FOREIGN KEY (doctorlicensedNum) REFERENCES doctor(licensedNum) ON DELETE CASCADE
+
+);
+
+-- show tables
+SHOW TABLES;
+

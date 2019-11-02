@@ -1,0 +1,49 @@
+USE jwan949assign2db;
+
+-- Delet any doctor whoes license before 1965-01-01
+-- the delete is not successful because its table has a foreign key in other tables which are not set as ON DELETE CASCADE
+DELETE FROM doctor WHERE licensedDate < "1965-01-01";
+
+
+-- Create a view that shows the all the patients first names and last names who are treated by the heads of hospitals, 
+-- that were made heads after Dec 31, 1995. 
+CREATE VIEW v
+AS
+SELECT
+    patient.firstName AS 'patientfirstname',
+    patient.lastName AS 'PATIENTLASTNAME',
+    doctor.lastName AS 'doctorlastname',
+    hospital.hospitalName AS 'hospitalname'
+FROM
+    patient
+INNER JOIN treatment 
+    ON patient.ohip = treatment.ohip
+INNER JOIN hospital
+    ON hospital.head = treatment.doctorlicensedNum
+INNER JOIN doctor
+    ON hospital.head = doctor.licensedNum
+WHERE hospital.headstartedDate > "1995-12-31";
+
+
+-- prove
+SELECT * FROM v;
+
+-- show all data
+SELECT * FROM doctor;
+SELECT * FROM treatment;
+
+-- Delete the doctor with a last name of Clooney
+DELETE FROM doctor WHERE lastName = "Clooney";
+
+-- prove
+-- it is successfully deletedbecause we have set the foreign key as ON DELETE CASCADE, 
+-- when the paretn row delete the child row will also be deleted
+SELECT * FROM doctor;
+SELECT * FROM treatment;
+
+-- Then try to delete all the Surgeons
+-- it is not successful because the row contains a primary key which is treated as foreign key in other tables, also they 
+-- are not set as ON DELETE CASCADE
+DELETE FROM doctor WHERE specialty="Surgeon";
+-- ERROR 1451: Cannot delete or update a parent row: a foreign jey constraint fails
+

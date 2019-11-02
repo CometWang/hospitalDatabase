@@ -1,0 +1,144 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW databases
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| jwan949assign2db   |
+| mysql              |
+| performance_schema |
+| vetdb              |
+| vetoffice          |
++--------------------+
+6 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS jwan949assign2db
+--------------
+
+Query OK, 5 rows affected (0.12 sec)
+
+--------------
+CREATE DATABASE jwan949assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+GRANT USAGE ON *.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP USER 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT ALL PRIVILEGES ON jwan949assign2db.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE hospital (
+    hospitalName VARCHAR(20),
+    city VARCHAR(20),
+    province VARCHAR(2),
+    bedAmount INT NOT NULL,
+    code VARCHAR(3) NOT NULL,
+    head VARCHAR(4) NOT NULL,
+    headstartedDate DATE,
+    PRIMARY KEY (code)
+)
+--------------
+
+Query OK, 0 rows affected (0.19 sec)
+
+--------------
+CREATE TABLE doctor (
+    code VARCHAR(3),
+    licensedNum VARCHAR(4) NOT NULL,
+    firstName VARCHAR(20),
+    lastName VARCHAR(20),
+    licensedDate DATE,
+    specialty VARCHAR(30),
+    PRIMARY KEY (licensedNum),
+    FOREIGN KEY (code) REFERENCES hospital(code)
+)
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+ALTER TABLE hospital
+ADD FOREIGN KEY (head) REFERENCES doctor(licensedNum)
+--------------
+
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE TABLE patient (
+    ohip INT NOT NULL,
+    firstName VARCHAR(20),
+    lastName VARCHAR(20),
+    PRIMARY KEY (ohip)
+
+)
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE treatment(
+    ohip INT NOT NULL,
+    doctorlicensedNum VARCHAR(4) NOT NULL,
+    PRIMARY KEY (ohip,doctorlicensedNum),
+    FOREIGN KEY (ohip) REFERENCES patient(ohip),
+
+    FOREIGN KEY (doctorlicensedNum) REFERENCES doctor(licensedNum) ON DELETE CASCADE
+
+)
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++----------------------------+
+| Tables_in_jwan949assign2db |
++----------------------------+
+| doctor                     |
+| hospital                   |
+| patient                    |
+| treatment                  |
++----------------------------+
+4 rows in set (0.00 sec)
+
+Bye
